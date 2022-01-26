@@ -1,0 +1,10 @@
+---
+title: "Homework2"
+author: "Stephen Peters-Collaer"
+date: "1/26/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
