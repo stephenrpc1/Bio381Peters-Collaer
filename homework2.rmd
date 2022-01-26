@@ -9,3 +9,4 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 **This is Homework 2!**
+Click here for [Home Page](index.html)
