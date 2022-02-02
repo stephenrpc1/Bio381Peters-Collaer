@@ -1,0 +1,73 @@
+---
+title: "Homework 3"
+author: "Stephen Peters-Collaer"
+date: "2/2/2022"
+output: html_document
+---
+Click [here](index.html) to return to the main page
+
+I sat next to Lindsey Carlson and discussed some of the problems with her during the lab period.
+
+1.  This is the first question
+
+```
+Find: \h{2,}
+Replace: ,
+```
+
+I used the h (for spaces on windows) wildcard with the quantifier {2,} to find any part of the table with more than 2 spaces (but ignore the line breaks).  I replaced these with commas.
+
+
+2.  This is the second question
+
+```
+Find: (\w+), (\w+), (.*)
+Replace: \2 \1 \(\3\)
+```
+
+Used quantifier surrounded by parentheses (\w+), to select the last name word, used that quantifier again to select the first name, and then used the .* expression to select the rest (university affiliation).  I then wanted to replace this with the second capture followed by the first capture and then the last capture inside parentheses.
+
+3.  This is the third question
+
+```
+Find:.mp3 
+Replace:.mp3\r
+```
+
+I selected the .mp3 at the end of each song name and included a space at the end of mp3 to capture the space between the next song.  I then replaced this with the .mp3 and a carriage return to make a new line.
+
+4.  This is the fourth question
+
+```
+Find:(\d+)\s(.+)(.mp3)
+Replace:(\2)\_(\1)(\3)
+
+```
+I used the capture around the number wildcard to specify the track number, followed by the space wildcard.  Then I captured the "everything else" wild card up until .mp3 which I also captured.
+I then replaced this with the second capture (the song name) followed by an underscore and then the first capture (the track number) followed by the third capture (.mp3)
+
+5.  This is the fifth question
+
+```
+Find:(\w)\w+,(\w+),\d+.\d,(\d+)
+Replace:\1\_\2,\3
+```
+I captured the first letter with the single letter wildcard and then used the wildcard + sign to capture the rest of the word followed by a comma.  Then I captured the species name followed by a comma and then then used the number wildcard with the period and then a number wildcard again followd by a comma before selecting the last number.  I replaced this with the first letter of the genus followed by an underscore, then the second capture for the species and the last number capture.
+
+6. This is the 6th questions
+
+```
+Find:(\w)\w+,(\w{1,4})\w+,\d+.\d,(\d+)
+Replace: \1\_\2,\3
+```
+I used the expression I had from question 5 and added in the letter wildcard with the quantifier brackets to select the first four letters of the genus.  NOthing else had to be edited.
+
+7.  This is the 7th question
+
+```
+Find:(\w{1,3})\w+,(\w{1,3})\w+,(\d+.\d),(\d+)
+Replace: \1\2, \4, \3
+```
+I altered my code from before by using the quantifiers to select the first three letters of the genus name, as well as the first 3 letters of the species name.  I then also captured the first set of numbers.
+
+I replaced this with the first capture followed by the second.  I then put a comma and a space after after this followd by the 4th capture and then the 3rd to reverse the numbers.

@@ -1,5 +1,5 @@
 ---
-title: "index.rmd"
+title: "Stephen Peters-Collaer Homepage.rmd"
 author: "Stephen Peters-Collaer"
 date: "1/26/2022"
 output: html_document
@@ -8,6 +8,12 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-Stephen Peters-Collaer website for Bio381!  Homeworks and assignments will be linked here.
+# Stephen Peters-Collaer website for Bio381!  
+## Homeworks and assignments will be linked below
 
-** Click here for [Homework 2!](homework2.html) **
+
+## Homework Assignments
+**Click here for [Homework 2!](homework2.html) **
+
+**Click here for [Homework 3!](homework3.html) **
+
