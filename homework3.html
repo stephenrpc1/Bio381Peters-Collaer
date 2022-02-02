@@ -177,32 +177,32 @@ pre code {
 <pre><code>Find: \h{2,}
 Replace: ,</code></pre>
 <p>I used the h wildcard (for spaces on windows) with the quantifier {2,} to find any part of the table with more than 2 spaces. I replaced these with commas.</p>
-<p><strong>2. This is the second question</strong></p>
+<p><br> <strong>2. This is the second question</strong></p>
 <pre><code>Find: (\w+), (\w+), (.*)
 Replace: \2 \1 \(\3\)</code></pre>
-<p>I used the (+), to select the last name word and comma. I then used that pattern again to select the first name. Finally I used the .* expression to select the rest (university affiliation). I then replaced this with the second capture followed by a space and the first capture and a space and finally the last capture inside parentheses.</p>
-<p><strong>3. This is the third question</strong></p>
+<p>I used the (/w+), to capture the last name and select the comma. I then used that pattern again on first name. Finally I used the .* expression to select the rest (university affiliation). I then replaced this with the second capture followed by a space, then the first capture and a space and finally with the last capture inside parentheses. <strong>Note: Throughout this document the backslash has been replaced with a forward slash because RMarkdown was evaluating the backslashes and removing them from my knitted document</strong></p>
+<p><br> <strong>3. This is the third question</strong></p>
 <pre><code>Find:.mp3 
 Replace:.mp3\r</code></pre>
-<p>I selected the .mp3 at the end of each song name and included a space at the end of mp3 to capture the space between the next song. I then replaced this with the .mp3 and a carriage return to make a new line after it.</p>
-<p><strong>4. This is the fourth question</strong></p>
+<p>I selected the .mp3 at the end of each song name and included a space at the end of mp3 to capture the space before the next song. I then replaced this with the .mp3 and a carriage return to make a new line after it.</p>
+<p><br> <strong>4. This is the fourth question</strong></p>
 <pre><code>Find:(\d+)\s(.+)(.mp3)
 Replace:(\2)\_(\1)(\3)
 </code></pre>
-<p>I used the capture around the number wildcard with the + quantifier to specify the track number, followed by the space wildcard. Then I captured the “everything else” wild card up until .mp3 which I also captured. I replaced this with the second capture (the song name) followed by an underscore and then the first capture (the track number) followed by the third capture (.mp3)</p>
-<p><strong>5. This is the fifth question</strong></p>
+<p>I used (/d+) to capture the track number, followed by the space wildcard. Then I captured everything else with (.+) up until .mp3 which I also captured. I replaced this with the second capture (the song name) followed by an underscore and then the first capture (the track number) followed by the third capture (.mp3)</p>
+<p><br> <strong>5. This is the fifth question</strong></p>
 <pre><code>Find:(\w)\w+,(\w+),\d+.\d,(\d+)
 Replace:\1\_\2,\3</code></pre>
-<p>I captured the first letter of the genus with and then used the +, to isolate the rest of the word followed by a comma. Then I captured the species name with (/w+) then used the number wildcard with the period and then a number wildcard again followd by a comma before selecting the last number. I replaced this with the first letter of the genus followed by an underscore, then the second capture for the species and the last number capture.</p>
-<p><strong>6. This is the 6th question</strong></p>
+<p>I captured the first letter of the genus with (/w) and then used the /w+, to isolate the rest of the word followed by a comma. Then I captured the species name with (/w+) and then used /d+./d, to isolate the first number. The I used (/d+) to capture the second number. I replaced this with the first letter of the genus followed by an underscore, then the second capture for the species followed by a comma and the last number capture.</p>
+<p><br> <strong>6. This is the 6th question</strong></p>
 <pre><code>Find:(\w)\w+,(\w{1,4})\w+,\d+.\d,(\d+)
 Replace: \1\_\2,\3</code></pre>
-<p>I used the expression I had from question 5 and added in the letter wildcard with the quantifier brackets to select the first four letters of the genus. NOthing else had to be edited.</p>
-<p><strong>7. This is the 7th question</strong></p>
+<p>I used the expression I had from question 5 and altered the (/w{1,4}) to select the first four letters of the genus. Nothing else had to be edited.</p>
+<p><br> <strong>7. This is the 7th question</strong></p>
 <pre><code>Find:(\w{1,3})\w+,(\w{1,3})\w+,(\d+.\d),(\d+)
 Replace: \1\2, \4, \3</code></pre>
-<p>I altered my code from before by using the quantifiers to select the first three letters of the genus name, as well as the first 3 letters of the species name. I then also captured the first set of numbers.</p>
-<p>I replaced this with the first capture followed by the second. I then put a comma and a space after after this followd by the 4th capture and then the 3rd to reverse the numbers.</p>
+<p>I altered my code from before by using (/w{1,3}) to capture the first three letters of the genus and species names. I then also captured the first set of numbers.</p>
+<p>I replaced this with the first capture followed by the second for the genus and species names. I then put a comma and a space after this followed by the 4th capture and then the 3rd to reverse the numbers.</p>
 
 
 
