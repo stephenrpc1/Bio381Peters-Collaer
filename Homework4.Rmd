@@ -48,7 +48,6 @@ r = sqrt(x^2+y^2) #calculate r value for polar coordinates
 theta = atan(y/x) # calculate angle value for polar coordinates
 print(r) # print results
 print(theta)
-
 ```
 
 **4.  This is question 4**
