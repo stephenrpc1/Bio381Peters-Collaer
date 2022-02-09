@@ -83,7 +83,7 @@ print(queue)
 which(queue=="aphid")
 ```
 
-5.  This is question 5
+**5.  This is question 5**
 ```{r}
 q5 <- c(1:100) #set q5 to all integers 1-100
 print(q5)
