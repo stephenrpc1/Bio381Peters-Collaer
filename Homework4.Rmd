@@ -1,0 +1,12 @@
+---
+title: "Homework4"
+author: "Stephen Peters-Collaer"
+date: "2/9/2022"
+output: html_document
+---
+Click [here](index.html) to return to the main page
+
+```{r}
+
+
+```
