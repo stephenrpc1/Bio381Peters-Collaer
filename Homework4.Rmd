@@ -55,7 +55,34 @@ print(theta)
 ```{r}
 queue <- c("sheep", "fox", "owl", "ant") # set queue
 
-# a.
+# a. the serpent arrives and gets in line
+queue <- c(queue, "serpent") # add serpent
+print(queue)
 
+# b the sheep enters the ark
+queue <- queue[-which(queue=="sheep")] #sheep  enters ark
+print(queue)
 
+# c the donkey arrives and talks his way to the front of the line
+queue <- c("donkey", queue) # donkey cuts line
+print(queue)
+
+# d the serpent gets impatient and leaves
+queue <- queue[-which(queue=="serpent")]
+print(queue)
+
+#e the owl gets bored and leaves
+queue <- queue[-which(queue=="owl")]
+print(queue)
+
+#f the aphid arrives and the ant invites him to cut in line
+queue <- append(queue, "aphid", after = which(queue=="ant")-1)
+print(queue)
+
+#g Finally, determine the position of the aphid in the line
+which(queue=="aphid")
 ```
+
+
+   
+
