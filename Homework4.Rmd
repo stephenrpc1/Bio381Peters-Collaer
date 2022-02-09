@@ -6,7 +6,56 @@ output: html_document
 ---
 Click [here](index.html) to return to the main page
 
+
+**1.  This is question 1**
 ```{r}
+x <- 1.1 #Define variable
+a <- 2.2
+b <- 3.3
+z <- x^(a^b) #run first equation
+print(z) #print result
+
+z <- (x^a)^b # run second equation
+print(z)
+
+z <- 3*x^2 +2*x^2 + 1 # run third equation
+print(z)
+
+```
+
+**2. This is question 2**
+```{r}
+v1 <- c(1:8, seq(7,1)) # set first vector
+print(v1)
+
+v2 <- rep(1:5, seq(1,5)) # set second vector
+print(v2)
+
+v3 <- rep(5:1, seq(1,5)) # set third vector
+print(v3)
+
+
+```
+
+**3.  This is question 3**
+```{r}
+vector <- runif(2) #create cartesian coordinate
+x = vector[1] #isolate X coordinate
+y = vector[2] # isolate y coordinate
+print(x) #print coordinates
+print(y)
+r = sqrt(x^2+y^2) #calculate r value for polar coordinates
+theta = atan(y/x) # calculate angle value for polar coordinates
+print(r) # print results
+print(theta)
+
+```
+
+**4.  This is question 4**
+```{r}
+queue <- c("sheep", "fox", "owl", "ant") # set queue
+
+# a.
 
 
 ```
