@@ -83,6 +83,14 @@ print(queue)
 which(queue=="aphid")
 ```
 
+5.  This is question 5
+```{r}
+q5 <- c(1:100) #set q5 to all integers 1-100
+print(q5)
+q5 <- q5[q5%%2!=0 & q5%%3!=0 & q5%%7!=0] #only select numbers that are not divisible by 2, 3, or 7
+print(q5)                    
+
+```
 
    
 
