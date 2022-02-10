@@ -7,7 +7,7 @@ output: html_document
 Click [here](index.html) to return to the main page
 
 
-**1.  This is question 1**
+**1.  This is question 1!**
 ```{r}
 x <- 1.1 #Define variable
 a <- 2.2
@@ -23,7 +23,7 @@ print(z)
 
 ```
 
-**2. This is question 2**
+**2. This is question 2!**
 ```{r}
 v1 <- c(1:8, seq(7,1)) # set first vector
 print(v1)
@@ -37,7 +37,7 @@ print(v3)
 
 ```
 
-**3.  This is question 3**
+**3.  This is question 3!**
 ```{r}
 vector <- runif(2) #create cartesian coordinate
 x = vector[1] #isolate X coordinate
@@ -50,7 +50,7 @@ print(r) # print results
 print(theta)
 ```
 
-**4.  This is question 4**
+**4.  This is question 4!**
 ```{r}
 queue <- c("sheep", "fox", "owl", "ant") # set queue
 
@@ -82,7 +82,7 @@ print(queue)
 which(queue=="aphid")
 ```
 
-**5.  This is question 5**
+**5.  This is question 5!**
 ```{r}
 q5 <- c(1:100) #set q5 to all integers 1-100
 print(q5)
