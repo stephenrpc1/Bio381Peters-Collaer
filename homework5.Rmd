@@ -104,6 +104,17 @@ print(my_df)
 
 #for the first variable, use a single line of code in R to select 4 random rows and replace the numerical values in those rows with NA
 my_df[sample(length(my_df$my_unis), replace = FALSE, size = 4),1] = NA
-my_df
+print(my_df)
+
+na_rows <- which(is.na(my_df)) #identify which rows have the missing values
+print(na_rows)
+
+my_df_sort <- my_df[order(my_df$my_letters),] #for the second variable, sort it in alphabetical order
+print(my_df_sort)
+
+#Calculate the column mean for the first variable
+df_mean <- mean(my_df$my_unis, na.rm=TRUE)
+print(df_mean)
+
 ```
 
