@@ -125,3 +125,11 @@ xval <- seq(0,max(z$dbh),len=length(z$dbh))
  
 ```
 
+Question 4
+The two histogram profiles are relatively similar with the main distinction that my data have more observations below the mode than the simulated distributions.  This makes sense because this is a distribution of DBHs, and due to the land-use history of this forest, there are few large (old) trees, and more small (young) trees.  The simulated data are not capturing this dynamic very well but otherwise look okay.
+
+
+I tried running the code on the the abv_mass_tonn column and the foliage_mass_tonn columns but because the datasets were very skewed, the gamma and beta distributions threw out errors.   Here's an example error "Error in stats::optim(x = c(0.0497695572426532, 0.0505961777599534, 0.13531441660897,  : non-finite finite-difference value [1]"
+
+The solutions on the internet were unfortunately not very helpful in resolving the error as I was not very familiar with most of the terminology being used
+
