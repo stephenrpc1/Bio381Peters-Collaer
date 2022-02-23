@@ -11,6 +11,8 @@ library(ggplot2) # for graphics
 library(MASS) # for maximum likelihood estimation
 ```
 
+
+**Read in simulated data vector (excluded)**
 ```{r read in simulated data vector (excluded)}
 # quick and dirty, a truncated normal distribution to work on the solution set
 
@@ -23,6 +25,8 @@ library(MASS) # for maximum likelihood estimation
 
 ```
 
+
+**Read in own data**
 ```{r read in own data}
 setwd("C:/Users/steph/OneDrive - University of Vermont/Documents/Dissertation_Research/StreamCarbon") #Set working directory where data is located
 z1 <- read.csv("hannah_hbef_forest_r.csv")
@@ -33,71 +37,91 @@ z <- z1[which(z1$stream == "cushman"),] #create new dataframe only using stream 
 
 z <- z[-3] # remove ID column that has lwd at the front
 
-z$ID <- seq(1:length(z$stream)) #replace the above ID column with a column of integers values
+z$ID <- seq(1:length(z$stream)) #create new ID column with a column of integers values
 
 ```
 
 
+**Plot histogram of data**
 ```{r plot histogram of data}
 p1 <- ggplot(data=z, aes(x=dbh, y=..density..)) +
-  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2)  # make histogram for DBH
 print(p1)
 ```
 
+
+**Get maximum likelihood parameters for normal**
 ```{r get maximum likelihood parameters for normal}
-normPars <- fitdistr(z$dbh,"normal")
+normPars <- fitdistr(z$dbh,"normal") # get the normal parameters for DBH variable
 print(normPars)
 str(normPars)
 normPars$estimate["mean"] # note structure of getting a named attribute
 ```
 
+
+**Plot normal probability density**
 ```{r plot normal probability density}
-meanML <- normPars$estimate["mean"]
-sdML <- normPars$estimate["sd"]
+meanML <- normPars$estimate["mean"] #set mean from normal parameters as manML
+sdML <- normPars$estimate["sd"] #set sd from normal parameters as sdML
 
-xval <- seq(0,max(z$dbh),len=length(z$dbh))
+xval <- seq(0,max(z$dbh),len=length(z$dbh)) #a sequence of equally spaced numbers from 0 to the max of the DBH column that is the length of dbh column
 
- stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$dbh), args = list(mean = meanML, sd = sdML))
- p1 + stat
+ stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$dbh), args = list(mean = meanML, sd = sdML)) #create normal dist
+ p1 + stat #plot graph and normal dist
 ```
 
+
+**Plot exponential probability value**
 ```{r plot exponential probability value}
+#get parameters from DBh data
 expoPars <- fitdistr(z$dbh,"exponential")
+#set rate based on fitdistr()
 rateML <- expoPars$estimate["rate"]
 
+#make exponential fit
 stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$dbh), args = list(rate=rateML))
- p1 + stat + stat2
+ p1 + stat + stat2 #plot histogram with all fits so far
 ```
 
+
+**Plot uniform probability density**
 ```{r plot uniform probability density}
-stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$dbh), args = list(min=min(z$dbh), max=max(z$dbh)))
- p1 + stat + stat2 + stat3
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$dbh), args = list(min=min(z$dbh), max=max(z$dbh))) #create uniform distribution line
+ p1 + stat + stat2 + stat3 #plot histogram with all distributions so far
 ```
 
+
+**Plot gamma probability density**
 ```{r plot gamma probability density}
-gammaPars <- fitdistr(z$dbh,"gamma", lower = c(0,0))
+gammaPars <- fitdistr(z$dbh,"gamma", lower = c(0,0)) # get gamma parameters
+
+#set gamma parameters for use in gamma distibution
 shapeML <- gammaPars$estimate["shape"]
 rateML <- gammaPars$estimate["rate"]
 
 stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$dbh), args = list(shape=shapeML, rate=rateML))
- p1 + stat + stat2 + stat3 + stat4
+ p1 + stat + stat2 + stat3 + stat4 #plot all distributions
 ```
 
+
+**Plot beta probability density**
 ```{r plot beta probability density}
 pSpecial <- ggplot(data=z, aes(x=dbh/(max(dbh + 0.1)), y=..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
   xlim(c(0,1)) +
-  geom_density(size=0.75,linetype="dotted")
+  geom_density(size=0.75,linetype="dotted") #creates dotted line fit on histogram
 
+#get and set beta parameters
 betaPars <- fitdistr(x=z$dbh/max(z$dbh + 0.1),start=list(shape1=1,shape2=2),"beta", lower = c(0,0))
 shape1ML <- betaPars$estimate["shape1"]
 shape2ML <- betaPars$estimate["shape2"]
 
-statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$dbh), args = list(shape1=shape1ML,shape2=shape2ML))
-pSpecial + statSpecial
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$dbh), args = list(shape1=shape1ML,shape2=shape2ML)) #creates solid pink line fit on histogram
+pSpecial + statSpecial #Print histogram with beta distribution lines
 ```
-
+------------
 **Questions 3 and 4**
+**Simulating dataset based on best fitting distribution**
 ```{r  simulating dataset based on best fitting distribution}
 z2 <- rnorm(n=length(z$ID),mean=normPars$estimate["mean"], sd=normPars$estimate["sd"])
 z2 <- data.frame(1:length(z$ID),z2)
@@ -105,6 +129,8 @@ colnames(z2) <- c("ID", "myVar")
 
 ```
 
+
+**Plotting my data and simulated data distributions**
 ```{r plotting my data and simulated data distributions}
  
 #plotting simulated data with a normal distribution
@@ -126,10 +152,11 @@ xval <- seq(0,max(z$dbh),len=length(z$dbh))
 ```
 
 Question 4
-The two histogram profiles are relatively similar with the main distinction that my data have more observations below the mode than the simulated distributions.  This makes sense because this is a distribution of DBHs, and due to the land-use history of this forest, there are few large (old) trees, and more small (young) trees.  The simulated data are not capturing this dynamic very well but otherwise look okay.
+
+The two histogram profiles are relatively similar with the main distinction being that my data have more observations in the left tail, and fewer in the right tail than the simulated distributions.  This makes sense because this is a distribution of DBHs, and due to the land-use history of this forest, there are few large (old) trees, and more small (young) trees.  The simulated data are not capturing this dynamic very well but otherwise look okay.
 
 
 I tried running the code on the the abv_mass_tonn column and the foliage_mass_tonn columns but because the datasets were very skewed, the gamma and beta distributions threw out errors.   Here's an example error "Error in stats::optim(x = c(0.0497695572426532, 0.0505961777599534, 0.13531441660897,  : non-finite finite-difference value [1]"
 
-The solutions on the internet were unfortunately not very helpful in resolving the error as I was not very familiar with most of the terminology being used
+The solutions on the internet were unfortunately not helpful in resolving the error as I was not familiar with most of the terminology being used.
 
