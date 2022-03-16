@@ -8,20 +8,15 @@ Click [here](index.html) to return to the main page
 
 **Creating Fake Data Sets To Explore Hypotheses**
 
+#########
+*Question 1: Think about an ongoing study in your lab (or a paper you have read in a different class), and decide on a pattern that you might expect in your experiment if a specific hypothesis were true.*
 
-Question 1: Think about an ongoing study in your lab (or a paper you have read in a different class), and decide on a pattern that you might expect in your experiment if a specific hypothesis were true.
+For a paper I'm working on I would expect the density of tree seedlings growing on tipped over root mounds to increase as the height of the mounds increases due to reduced competition for light from surrounding shrubs and saplings.  This requires continuous dependent and independent variables meaning I will run a form of linear regression on these data.
 
-For a paper I'm working on I would expect the density of the seedlings growing on tipped over root mounds to increase as the height of the mounds increases due to reduced competition for light from surrounding shrubs and saplings.  This requires continuous dependent and independent variables meaning I will run a form of linear regression on these data.
 
-###############
-Question 2: To start simply, assume that the data in each of your treatment groups follow a normal distribution. Specify the sample sizes, means, and variances for each group that would be reasonable if your hypothesis were true. You may need to consult some previous literature and/or an expert in the field to come up with these numbers.
+*Question 2: To start simply, assume that the data in each of your treatment groups follow a normal distribution. Specify the sample sizes, means, and variances for each group that would be reasonable if your hypothesis were true. You may need to consult some previous literature and/or an expert in the field to come up with these numbers.*
 
 Sample size: 20
-
-Density:
-Mean: 7.5 seedlings/m^2
-SD: 11
-
 
 Root Mound Height:
 Mean: 1.8m
@@ -30,32 +25,35 @@ SD: 0.7
 Slope = 2.5
 intercept = 0
 
-As the literature doesn't contain information on the relationship between root mound height and the number of seedlings on the root mound, I based these numbers on the actual mean, sample size and SD from the dataset I have and edited them a bit to make them more useable. I ran a simple lm on my dataset to get the slope and intercept
-#############
+As this is the first study to look at this relationship and the literature doesn't contain information on the relationship between root mound height and the number of seedlings on the root mound, I based these numbers on the actual mean and SD from the dataset I have and edited them a bit to make them more useable. I ran a simple lm on my dataset to get the slope and intercept.
 
-Question 3: Using the methods we have covered in class, write code to create a random data set that has these attributes. Organize these data into a data frame with the appropriate structure.
+
+*Question 3: Using the methods we have covered in class, write code to create a random data set that has these attributes. Organize these data into a data frame with the appropriate structure.*
 ```{r, question 3}
 library(ggplot2)
-#Root Mound Height
+#Make equation to calculate density 
 beta1 <- 2.5 # create slope
 height <- rnorm(20, mean = 1.8, sd = 0.7) #create normally distributed x with parameters from above
 beta0 <- 0 # intercept of 0
 
-density <- beta1 * height + beta0 # make density based on these variables
+density <- beta1 * height + beta0 # calculate density based on the above variables
 
-df <- data.frame(height, density)
-
+df <- data.frame(height, density) # make data frame of these vectors
+df$index <- seq(1:length(height)) # add index column
 ```
-Question 4: Now write code to analyze the data (probably as an ANOVA or regression analysis, but possibly as a logistic regression or contingency table analysis. Write code to generate a useful graph of the data.
+
+
+*Question 4: Now write code to analyze the data (probably as an ANOVA or regression analysis, but possibly as a logistic regression or contingency table analysis. Write code to generate a useful graph of the data.*
 ```{r, question 4}
 lm1 <- lm(density ~ height, data = df) #make linear model
-summary(lm1) #make summary of model
+summary(lm1) #show summary of model
 
 plot(df$height, df$density, pch = 20, col = "black", xlab = "Root Mound Height", ylab = "Seedling Density", ylim = c(0, 15), xlim = c(0, 5)) #make graph
 
 ```
 
-Question 5: Try running your analysis multiple times to get a feeling for how variable the results are with the same parameters, but different sets of random numbers.
+
+*Question 5: Try running your analysis multiple times to get a feeling for how variable the results are with the same parameters, but different sets of random numbers.*
 ```{r, question 5}
 # Run code a second time
 #Root Mound Height
@@ -65,12 +63,15 @@ beta0 <- 0 # intercept of 0
 
 density <- beta1 * height + beta0 # make density based on these variables
 
-df <- data.frame(height, density)
+df <- data.frame(height, density) # make data frame of these vectors
+df$index <- seq(1:length(height)) # add index column
 
 lm1 <- lm(density ~ height, data = df) #make linear model
 summary(lm1) #make summary of model
 
 plot(df$height, df$density, pch = 20, col = "black", xlab = "Root Mound Height", ylab = "Seedling Density", ylim = c(0, 15), xlim = c(0, 5)) #make graph
+
+
 
 ####################
 # Run code a third time
@@ -81,7 +82,8 @@ beta0 <- 0 # intercept of 0
 
 density <- beta1 * height + beta0 # make density based on these variables
 
-df <- data.frame(height, density)
+df <- data.frame(height, density) # make data frame of these vectors
+df$index <- seq(1:length(height)) # add index column
 
 lm1 <- lm(density ~ height, data = df) #make linear model
 summary(lm1) #make summary of model
@@ -90,9 +92,10 @@ plot(df$height, df$density, pch = 20, col = "black", xlab = "Root Mound Height",
 
 ```
 
-Question 6/7: Adjusting
+*Question 6/7: Adjusting p values*
 ```{r, question 6/7}
-# Run code a third time
+# Run code with an added noise variable so that the simulated data not are not just a perfect line
+
 #Root Mound Height
 beta1 <- 2.5 # create slope
 noise <- rnorm(n = 20, mean = 0, sd = 3) # add noise parameter that offsets points from the perfect regression line
@@ -109,7 +112,7 @@ summary(lm1) #make summary of model
 plot(df$height, df$density, pch = 20, col = "black", xlab = "Root Mound Height", ylab = "Seedling Density", ylim = c(0, 15), xlim = c(0, 5)) #make graph
 
 ```
-Since my data were created to be a perfect fit with the lm, the best way to make the data represent actual situations is to add a noise parameter as I did above.  I played around with the standard deviation of this parameter to see what level of "noise" led to non-significant results.  with an SD of 2, the model was usually significant, although not always.  Once I got up to and SD of 3, the p value of the model was highly variable, and sigificance couldn't be assumed.
+Since my data were created to be a perfect line, the best way to make the data represent actual situations is to add a noise parameter as I did above.  I played around with the standard deviation of this parameter to see what level of "noise" led to non-significant results.  with an SD of 2, the model was usually significant, although not always.  Once I got up to an SD of 3, the p value of the model was highly variable, and usually not significant.
 
 
 
