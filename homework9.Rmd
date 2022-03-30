@@ -121,12 +121,12 @@ create_simdata <- function(slope = runif(1), n = 10, mean = 50, sd = 10, interce
 # FUNCTION:run_model
 # purpose: Use x and y vectors to create a linear model
 # input:x and y vectors of the same length 
-# output: A summary of the results from a linear model run on these vectors
+# output: A summary of the coefficients from a linear model run on these vectors
 # ------------------------
 run_model <- function(x= NULL, y = NULL) {
   if(is.null(x)) print("No Data!") else
   lm1 <- lm(x ~ y)
-  summary(lm1)
+  return(summary(lm1)$coefficients)
 }
 
 ##########################
