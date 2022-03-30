@@ -174,6 +174,15 @@ pre code {
 <p>Click <a href="index.html">here</a> to return to the main page</p>
 <p>I worked next to Lindsey Carlson on this assignment, and we discussed some of the questions together.</p>
 <p><strong>Question 1:</strong> Using a for loop, write a function to calculate the number of zeroes in a numeric vector. Before entering the loop, set up a counter variable counter &lt;- 0. Inside the loop, add 1 to counter each time you have a zero in the matrix. Finally, use return(counter) for the output.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.6     v dplyr   1.0.7
+## v tidyr   1.2.0     v stringr 1.4.0
+## v readr   2.1.2     v forcats 0.5.1</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>##########################
 # FUNCTION:zero_count
 # purpose: Count the nuber of zeros in a numeric vector
@@ -192,7 +201,7 @@ for (i in 1:length(vector)) {
 } # end function
 
   zero_count()</code></pre>
-<pre><code>## [1] 8</code></pre>
+<pre><code>## [1] 4</code></pre>
 <p><strong>Question 2: </strong> Use subsetting instead of a loop to rewrite the function as a single line of code.</p>
 <pre class="r"><code>##########################
 # FUNCTION:zero_count_short
@@ -204,7 +213,59 @@ zero_count_simple &lt;- function(vector = sample(-100:100, 1000, replace = TRUE)
   return(length(vector[vector==0]))
 }
 zero_count_simple()</code></pre>
-<pre><code>## [1] 6</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p><strong>Question 3:</strong> Write a function that takes as input two integers representing the number of rows and columns in a matrix. The output is a matrix of these dimensions in which each element is the product of the row number x the column number.</p>
+<pre class="r"><code>##########################
+# FUNCTION:multiply_row_col
+# purpose:multiplies the row number and column number by each other and puts these in a matrix of given size
+# input: two integers denoting the desired number of rows and columns of a matrix
+# output: a matrix with the product of the row number by the column number in each cell
+# ------------------------
+multiply_row_col &lt;- function(nrow = 3, ncol = 3) {
+  mat &lt;- matrix(nrow = 3, ncol = 3)
+  for (i in 1:nrow){
+    for (j in 1:ncol) {
+      mat[i,j] &lt;- i*j
+    } # end j forloop
+  } # end i forloop
+  print(mat)
+}# end function
+multiply_row_col()</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    2    4    6
+## [3,]    3    6    9</code></pre>
+<p><strong>Question 4:</strong> In the next few lectures, you will learn how to do a randomization test on your data. We will complete some of the steps today to practice calling custom functions within a for loop. Use the code from the March 31st lecture (Randomization Tests) to complete the following steps:</p>
+<p>4a Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.</p>
+<pre class="r"><code>group &lt;- as.factor(c(rep(&quot;A&quot;, 20), rep(&quot;B&quot;, 20), rep(&quot;C&quot;, 20))) #make group vector
+A &lt;- rnorm(n = 20, mean = 50, sd= 2.5) #make corresponding data for group A
+B &lt;- rnorm(n = 20, mean = 75, sd = 5)#make corresponding data for group B
+C &lt;- rnorm(n = 20, mean = 25, sd = 1)#make corresponding data for group C
+resp &lt;- c(A, B, C) #combine data into one vector for the responses
+q4_df &lt;- data.frame(group, resp) # combine response vector and groups into a data frame</code></pre>
+<p>4b. Write a custom function that 1) reshuffles the response variable, and 2) calculates the mean of each group in the reshuffled data. Store the means in a vector of length 3.</p>
+<pre class="r"><code>##########################
+# FUNCTION:reshuffle
+# purpose: reshuffles the response variable of a data frame and then provides the man for each group
+# input: a data frame of two columns, response and group, and the name of the response column as a string
+# output: the mean of each reshuffled group
+# ------------------------
+reshuffle &lt;- function(df = q4_df) {
+  colnames(df) &lt;- c(&quot;group&quot;, &quot;response&quot;)
+  df$response &lt;- sample(df$response, length(df$response), replace = FALSE)
+
+    df2 &lt;- df %&gt;%
+     group_by(group) %&gt;%
+     summarize(mean = mean(response))
+    return(df2)
+}
+reshuffle()</code></pre>
+<pre><code>## # A tibble: 3 x 2
+##   group  mean
+##   &lt;fct&gt; &lt;dbl&gt;
+## 1 A      52.2
+## 2 B      50.5
+## 3 C      46.9</code></pre>
 
 
 

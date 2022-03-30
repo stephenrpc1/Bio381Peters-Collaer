@@ -12,6 +12,7 @@ I worked next to Lindsey Carlson on this assignment, and we discussed some of th
 **Question 1:**
 Using a for loop, write a function to calculate the number of zeroes in a numeric vector. Before entering the loop, set up a counter variable counter <- 0. Inside the loop, add 1 to counter each time you have a zero in the matrix. Finally, use return(counter) for the output.
 ```{r Question 1}
+library(tidyverse)
 ##########################
 # FUNCTION:zero_count
 # purpose: Count the nuber of zeros in a numeric vector
@@ -47,6 +48,74 @@ zero_count_simple <- function(vector = sample(-100:100, 1000, replace = TRUE)){
 }
 zero_count_simple()
 
+```
 
+**Question 3:**
+Write a function that takes as input two integers representing the number of rows and columns in a matrix. The output is a matrix of these dimensions in which each element is the product of the row number x the column number.
+```{r, Question 3}
+
+##########################
+# FUNCTION:multiply_row_col
+# purpose:multiplies the row number and column number by each other and puts these in a matrix of given size
+# input: two integers denoting the desired number of rows and columns of a matrix
+# output: a matrix with the product of the row number by the column number in each cell
+# ------------------------
+multiply_row_col <- function(nrow = 3, ncol = 3) {
+  mat <- matrix(nrow = 3, ncol = 3)
+  for (i in 1:nrow){
+    for (j in 1:ncol) {
+      mat[i,j] <- i*j
+    } # end j forloop
+  } # end i forloop
+  print(mat)
+}# end function
+multiply_row_col()
+
+```
+
+**Question 4:**
+In the next few lectures, you will learn how to do a randomization test on your data. We will complete some of the steps today to practice calling custom functions within a for loop. Use the code from the March 31st lecture (Randomization Tests) to complete the following steps:
+
+4a Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.
+```{r Question 4}
+
+
+group <- as.factor(c(rep("A", 20), rep("B", 20), rep("C", 20))) #make group vector
+A <- rnorm(n = 20, mean = 50, sd= 2.5) #make corresponding data for group A
+B <- rnorm(n = 20, mean = 75, sd = 5)#make corresponding data for group B
+C <- rnorm(n = 20, mean = 25, sd = 1)#make corresponding data for group C
+resp <- c(A, B, C) #combine data into one vector for the responses
+q4_df <- data.frame(group, resp) # combine response vector and groups into a data frame
+````
+
+
+4b. Write a custom function that 1) reshuffles the response variable, and 2) calculates the mean of each group in the reshuffled data. Store the means in a vector of length 3.
+```{r, Question 4b}
+
+##########################
+# FUNCTION:reshuffle
+# purpose: reshuffles the response variable of a data frame and then provides the man for each group
+# input: a data frame of two columns, response and group, and the name of the response column as a string
+# output: the mean of each reshuffled group
+# ------------------------
+reshuffle <- function(df = q4_df) {
+  colnames(df) <- c("group", "response")
+  df$response <- sample(df$response, length(df$response), replace = FALSE)
+
+    df2 <- df %>%
+     group_by(group) %>%
+     summarize(mean = mean(response))
+    return(df2)
+}
+reshuffle()
+
+```
+
+4c: Use a for loop to repeat the function in b 100 times. Store the results in a data frame that has 1 column indicating the replicate number and 1 column for each new group mean, for a total of 4 columns.
+```{r Question 4}
+for (i in 1:100) {
+  reshuffle()
+  
+}
 
 ```
