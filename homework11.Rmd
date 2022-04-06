@@ -68,7 +68,7 @@ for (i in seq_along(file_names)) {
   write.table(cat("# Summary stats for ",
                     "batch processing of regression models","\n",
                     "# timestamp: ",as.character(Sys.time()),"\n",
-                    "# NJG","\n",
+                    "# SPC","\n",
                     "# ------------------------", "\n",
                     "\n",
                     file=file_out,

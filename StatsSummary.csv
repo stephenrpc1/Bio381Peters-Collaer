@@ -1,6 +1,6 @@
 # Summary stats for batch processing of regression models
-# timestamp: 2022-04-06 14:05:33
-# NJG
+# timestamp: 2022-04-06 14:11:20
+# SPC
 # ------------------------
 
 "ID","file_name","slope","p_val","r2"
