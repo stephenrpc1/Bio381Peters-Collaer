@@ -81,11 +81,12 @@ In the next few lectures, you will learn how to do a randomization test on your 
 
 
 group <- as.factor(c(rep("A", 20), rep("B", 20), rep("C", 20))) #make group vector
-A <- rnorm(n = 20, mean = 50, sd= 2.5) #make corresponding data for group A
-B <- rnorm(n = 20, mean = 75, sd = 5)#make corresponding data for group B
-C <- rnorm(n = 20, mean = 25, sd = 1)#make corresponding data for group C
+A <- rnorm(n = 20, mean = 10, sd= 2.5) #make corresponding data for group A
+B <- rnorm(n = 20, mean = 175, sd = 5)#make corresponding data for group B
+C <- rnorm(n = 20, mean = 50, sd = 1)#make corresponding data for group C
 resp <- c(A, B, C) #combine data into one vector for the responses
 q4_df <- data.frame(group, resp) # combine response vector and groups into a data frame
+q4_df
 ````
 
 
@@ -167,6 +168,60 @@ meanC <- qplot(x = grp_meanC,
                fill = I(wes_palette("GrandBudapest2", n = 1))
                )
 print(meanC)
+```
 
 
+
+
+Worked with Lindsey Carlson on the following segment
+```{r Question 5 (from following week)}
+
+library(tidyverse)
+library(wesanderson)
+##########################
+# FUNCTION:get_metric
+# purpose: Calculate an ANOVA comparing groups
+# input: a dataframe of two columns
+# output: a p value comparing the groups
+# ------------------------
+get_metric <- function(df = q4_df) {
+  test <- aov(resp ~ group, data = q4_df)
+  return(summary(test)[[1]][["Pr(>F)"]][1])
+}
+
+x_obs <- get_metric(q4_df)
+print(x_obs)
+#  The above shows that my groups are statistically different from each other.  I will use the histograms from part 4 to show this graphically by showing the means from my observed data on the simulated histograms
+
+#Plot Group A
+meanA2 <-ggplot(aes(x = grp_meanA),
+               data = df) +
+               geom_histogram(color = "black", fill = wes_palette("GrandBudapest2", n = 1)) + geom_vline(xintercept=mean(A)) +
+geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.025), color = "red") +
+  geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.975), color = "red")
+  
+print(meanA2)
+
+# PLot Group B
+quantile(B, probs = c(0.025, 0.975))
+meanB2 <-ggplot(aes(x = grp_meanB),
+               data = df) +
+               geom_histogram(color = "black", fill = wes_palette("FantasticFox1", n = 1)) + geom_vline(xintercept=mean(B)) +
+  geom_vline(xintercept = quantile(df$grp_meanB, probs = 0.025), color = "red") +
+  geom_vline(xintercept = quantile(df$grp_meanB, probs = 0.975), color = "red")
+  
+  
+print(meanB2)
+
+
+#plot Group C
+meanC2 <-ggplot(aes(x = grp_meanC),
+               data = df) +
+               geom_histogram(color = "black", fill = wes_palette("Zissou1", n = 1)) + geom_vline(xintercept=mean(C)) +
+geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.025), color = "red") +
+  geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.975), color = "red")
+  
+print(meanC2)
+
+# The red lines on the above histograms represent the 95% confidence interval on the simulated data and the black line is the observed mean.  The fact that the balck line is outside the red line in all cases indicates that it is likely from a different population.
 ```
