@@ -76,7 +76,7 @@ multiply_row_col()
 **Question 4:**
 In the next few lectures, you will learn how to do a randomization test on your data. We will complete some of the steps today to practice calling custom functions within a for loop. Use the code from the March 31st lecture (Randomization Tests) to complete the following steps:
 
-4a Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.
+**4a:** Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.
 ```{r Question 4}
 
 
@@ -89,7 +89,7 @@ q4_df <- data.frame(group, resp) # combine response vector and groups into a dat
 ````
 
 
-4b. Write a custom function that 1) reshuffles the response variable, and 2) calculates the mean of each group in the reshuffled data. Store the means in a vector of length 3.
+**4b:** Write a custom function that 1) reshuffles the response variable, and 2) calculates the mean of each group in the reshuffled data. Store the means in a vector of length 3.
 ```{r, Question 4b}
 
 ##########################
@@ -111,11 +111,62 @@ reshuffle()
 
 ```
 
-4c: Use a for loop to repeat the function in b 100 times. Store the results in a data frame that has 1 column indicating the replicate number and 1 column for each new group mean, for a total of 4 columns.
-```{r Question 4}
+
+**4c:** Use a for loop to repeat the function in b 100 times. Store the results in a data frame that has 1 column indicating the replicate number and 1 column for each new group mean, for a total of 4 columns.
+```{r Question 4c}
+rep <- rep(NULL, 100)
+grp_meanA <- rep(NULL, 100)
+grp_meanB <- rep(NULL, 100)
+grp_meanC <- rep(NULL, 100)
+df <- data.frame(rep, grp_meanA, grp_meanB, grp_meanC)
+
 for (i in 1:100) {
-  reshuffle()
+  df[i,1] <- i
+  for (j in 1:3) {
+  df_reshuff <- reshuffle()
+  df[i,j+1] <- df_reshuff[j,2]
   
-}
+  } # end j for loop
+} #end i for loop
+colnames(df) <- c("rep", "grp_meanA", "grp_meanB", "grp_meanC")
+head(df)
+
+```
+
+
+**4d:** Use qplot() to create a histogram of the means for each reshuffled group. Or, if you want a challenge, use ggplot() to overlay all 3 histograms in the same figure. How do the distributions of reshuffled means compare to the original means?
+```{r Question 4d}
+library(wesanderson)
+df$grp_meanA
+meanA <- qplot(x = grp_meanA,
+               data = df,
+               main = "Reshuffled Group A means",
+               xlab = "Group A Means",
+               ylab = "Count",
+               color = I("black"),
+               fill = I(wes_palette("Moonrise1", n = 1))
+               )
+print(meanA)
+
+meanB <- qplot(x = grp_meanB,
+               data = df,
+               main = "Reshuffled Group B means",
+               xlab = "Group B Means",
+               ylab = "Count",
+               color = I("black"),
+               fill = I(wes_palette("Zissou1", n = 1))
+               )
+print(meanB)
+
+meanC <- qplot(x = grp_meanC,
+               data = df,
+               main = "Reshuffled Group C means",
+               xlab = "Group C Means",
+               ylab = "Count",
+               color = I("black"),
+               fill = I(wes_palette("GrandBudapest2", n = 1))
+               )
+print(meanC)
+
 
 ```
