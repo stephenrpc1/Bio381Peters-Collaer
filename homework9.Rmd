@@ -22,7 +22,7 @@ set.seed(3333)
 # Load Functions ---------------
 
 # FUNCTION:create_data
-# purpose: Create simulated data for linear model using known parameters from my data
+# purpose: Create simulated data for a linear model using known parameters from my data
 # input: slope - the slope of the response variable
 # n - the number of replicates 
 # mean - the mean for the resonse variable
@@ -82,6 +82,8 @@ graph_results(x_var = df1$x_val, y_var = df1$y_val)
 
 ```
 
+<br>
+<br>
 **Question 2**
 This differs from the above in that instead of using density of seedlings as the dependent variable, it will use the count of seedlings, and thus use a GLM.
 ```{r, Question 2}
@@ -99,7 +101,7 @@ set.seed(3333)
 # Load Functions ---------------
 
 # FUNCTION:create_data
-# purpose: Create simulated data for generalized linear model 
+# purpose: Create simulated data for a generalized linear model 
 # input: n - the number of replicates
 # lambda - the lambda of the poisson distribution for the count data
 # xrange - the known range of values for the independent variable
