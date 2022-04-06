@@ -16,18 +16,18 @@ Question 1
 # Initialize -------------------
 library(tidyverse)
 library(ggplot2)
-#set.seed(100)
+set.seed(3333)
 
-#library(TeachingDemos)
-# char2seed("espresso withdrawal")
-# char2seed("espresso withdrawal", set = FALSE)
 
 # Load Functions ---------------
 
 # FUNCTION:create_data
 # purpose: Create simulated data for linear model using known parameters from my data
-# input: lm data parameters -  slope
-# output: A data frame containing the simulated data set based on the given parameters
+# input: slope - the slope of the response variable
+# n - the number of replicates 
+# mean - the mean for the resonse variable
+# intercept - the y intercept
+# output: A data frame containing a simulated normal dataset based on the given parameters
 # ------------------------
 create_simdata <- function(slope = runif(1), n = 10, mean = 50, sd = 10, intercept = 0) {
   noise <- rnorm(n = n, mean = 0, sd = 2)
@@ -72,7 +72,7 @@ graph_results <- function(x_var=runif(10), y_var=runif(10)) {
 
 
 # Global Variables -------------
-df1 <- create_simdata(slope=2.5, n=20, mean=1.8, sd=0.7)
+df1 <- create_simdata(slope=2.5, n=20, mean=1.8, sd=0.7) #parameters taken from my real dataset
 
 
 # Program Body -----------------
@@ -86,7 +86,7 @@ graph_results(x_var = df1$x_val, y_var = df1$y_val)
 This differs from the above in that instead of using density of seedlings as the dependent variable, it will use the count of seedlings, and thus use a GLM.
 ```{r, Question 2}
 # Description ------------------
-# A script that simulates data for my yellow birch regeneration project.  This script creates simulated data based on the real parameters from my dataset and then runs a linear model and graphs the results.  The independent variable is the size of the fallen over root mounds that the yellow brich are growing on and the dependent variable is the count of yellow birch seedlings growing on the root mound.
+# A script that simulates data for my yellow birch regeneration project.  This script creates simulated data based on the real parameters from my dataset and then runs a generalized linear model and graphs the results.  The independent variable is the size of the fallen over root mounds that the yellow brich are growing on and the dependent variable is the count of yellow birch seedlings growing on the root mound.
 
 #  20 Mar 2022
 #SPC
@@ -94,39 +94,37 @@ This differs from the above in that instead of using density of seedlings as the
 # Initialize -------------------
 library(tidyverse)
 library(ggplot2)
-#set.seed(100)
-
-#library(TeachingDemos)
-# char2seed("espresso withdrawal")
-# char2seed("espresso withdrawal", set = FALSE)
+set.seed(3333)
 
 # Load Functions ---------------
 
 # FUNCTION:create_data
-# purpose: Create simulated data for linear model using known parameters from my data
-# input: lm data parameters -  slope
+# purpose: Create simulated data for generalized linear model 
+# input: n - the number of replicates
+# lambda - the lambda of the poisson distribution for the count data
+# xrange - the known range of values for the independent variable
 # output: A data frame containing the simulated data set based on the given parameters
 # ------------------------
-create_simdata <- function(slope = runif(1), n = 10, mean = 50, sd = 10, intercept = 0) {
-  noise <- round(rnorm(n = n, mean = 0, sd = 5))
-  x_val  <- round(rnorm(n = n, mean = mean, sd = sd))
-  y_val <- slope*x_val + noise + intercept
+create_simdata <- function(n = 10, lambda = 10, xrange=1:10 ) {
+  x_val <- runif(n, min = min(xrange), max = max(xrange)) 
+  #lambda1 <- exp(lambda)
+  y_val <- rpois(n = n, lambda = lambda)
   df <- data.frame(x_val, y_val)
-  
-  return(df)
+   return(df)
 }
+
 
 
 ##########################
 # FUNCTION:run_model
-# purpose: Use x and y vectors to create a linear model
+# purpose: Use x and y vectors to create a generalized linear model
 # input:x and y vectors of the same length 
-# output: A summary of the coefficients from a linear model run on these vectors
+# output: A summary of the coefficients from a generalized linear model run on these vectors
 # ------------------------
 run_model <- function(x= NULL, y = NULL) {
   if(is.null(x)) print("No Data!") else
-  lm1 <- lm(x ~ y)
-  return(summary(lm1)$coefficients)
+    glm1 <- glm(y ~ x, family=poisson)
+  return(summary(glm1)$coefficients)
 }
 
 ##########################
@@ -150,12 +148,12 @@ graph_results <- function(x_var=runif(10), y_var=runif(10)) {
 
 
 # Global Variables -------------
-df1 <- create_simdata(n = 20, mean = 7.4, sd = 10.9) #these are the updated values for the count of seedlings
+df2 <- create_simdata(n = 20, lambda = 7.4, xrange = 8:75) #these are values taken from my real dataset
 
 
 # Program Body -----------------
-run_model(x = df1$x_val, y = df1$y_val)
+run_model(x = df2$x_val, y = df2$y_val)
 
-graph_results(x_var = df1$x_val, y_var = df1$y_val)
+graph_results(x_var = df2$x_val, y_var = df2$y_val)
 
 ```
