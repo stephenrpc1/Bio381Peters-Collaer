@@ -79,14 +79,13 @@ In the next few lectures, you will learn how to do a randomization test on your 
 **4a:** Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.
 ```{r Question 4}
 
-
 group <- as.factor(c(rep("A", 20), rep("B", 20), rep("C", 20))) #make group vector
 A <- rnorm(n = 20, mean = 10, sd= 2.5) #make corresponding data for group A
 B <- rnorm(n = 20, mean = 175, sd = 5)#make corresponding data for group B
 C <- rnorm(n = 20, mean = 50, sd = 1)#make corresponding data for group C
 resp <- c(A, B, C) #combine data into one vector for the responses
 q4_df <- data.frame(group, resp) # combine response vector and groups into a data frame
-q4_df
+head(q4_df)
 ````
 
 
@@ -106,7 +105,7 @@ reshuffle <- function(df = q4_df) {
     df2 <- df %>%
      group_by(group) %>%
      summarize(mean = mean(response))
-    return(df2)
+    return(as.vector(df2$mean))
 }
 reshuffle()
 
@@ -115,16 +114,18 @@ reshuffle()
 
 **4c:** Use a for loop to repeat the function in b 100 times. Store the results in a data frame that has 1 column indicating the replicate number and 1 column for each new group mean, for a total of 4 columns.
 ```{r Question 4c}
+#create empty vectors to fill in for loop
 rep <- rep(NULL, 100)
 grp_meanA <- rep(NULL, 100)
 grp_meanB <- rep(NULL, 100)
 grp_meanC <- rep(NULL, 100)
 df <- data.frame(rep, grp_meanA, grp_meanB, grp_meanC)
 
+#For loop to reshuffle data 100 times and save output as a dataframe
 for (i in 1:100) {
   df[i,1] <- i
   for (j in 1:3) {
-  df_reshuff <- reshuffle()
+  df_reshuff <- data.frame(c(A, B, C), reshuffle())
   df[i,j+1] <- df_reshuff[j,2]
   
   } # end j for loop
@@ -138,7 +139,7 @@ head(df)
 **4d:** Use qplot() to create a histogram of the means for each reshuffled group. Or, if you want a challenge, use ggplot() to overlay all 3 histograms in the same figure. How do the distributions of reshuffled means compare to the original means?
 ```{r Question 4d}
 library(wesanderson)
-df$grp_meanA
+
 meanA <- qplot(x = grp_meanA,
                data = df,
                main = "Reshuffled Group A means",
@@ -146,7 +147,7 @@ meanA <- qplot(x = grp_meanA,
                ylab = "Count",
                color = I("black"),
                fill = I(wes_palette("Moonrise1", n = 1))
-               )
+               ) # plot means of 100 reshuffled groupA means
 print(meanA)
 
 meanB <- qplot(x = grp_meanB,
@@ -156,7 +157,7 @@ meanB <- qplot(x = grp_meanB,
                ylab = "Count",
                color = I("black"),
                fill = I(wes_palette("Zissou1", n = 1))
-               )
+               ) # plot means of 100 reshuffled groupB means
 print(meanB)
 
 meanC <- qplot(x = grp_meanC,
@@ -166,18 +167,26 @@ meanC <- qplot(x = grp_meanC,
                ylab = "Count",
                color = I("black"),
                fill = I(wes_palette("GrandBudapest2", n = 1))
-               )
+               )# plot means of 100 reshuffled groupC means
 print(meanC)
 ```
+<br>
+<br>
 
 
 
+
+
+**Question 5:** Use the histograms from above to determine if the original groups would fall in the tails of the reshuffled groups, indicating that the original groups are statistically different from each other
 
 Worked with Lindsey Carlson on the following segment
 ```{r Question 5 (from following week)}
 
 library(tidyverse)
 library(wesanderson)
+
+#First step is to calculate an ANOVA comparing the initial groups to see if they are stastically different.  I will then visualize this using the reshuffled histograms
+
 ##########################
 # FUNCTION:get_metric
 # purpose: Calculate an ANOVA comparing groups
@@ -196,19 +205,20 @@ print(x_obs)
 #Plot Group A
 meanA2 <-ggplot(aes(x = grp_meanA),
                data = df) +
-               geom_histogram(color = "black", fill = wes_palette("GrandBudapest2", n = 1)) + geom_vline(xintercept=mean(A)) +
-geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.025), color = "red") +
-  geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.975), color = "red")
+               geom_histogram(color = "black", fill = wes_palette("Moonrise1", n = 1)) + geom_vline(xintercept=mean(A)) + #insert mean of group A line
+geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.025), color = "red") + 
+  geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.975), color = "red") #insert quantile lines
   
 print(meanA2)
 
+# The red lines on the  histograms represent the 95% confidence interval on the simulated data and the black line is the observed mean.  The fact that the black line is outside of the red line indicates that it is likely from a different population.
+
 # PLot Group B
-quantile(B, probs = c(0.025, 0.975))
 meanB2 <-ggplot(aes(x = grp_meanB),
                data = df) +
-               geom_histogram(color = "black", fill = wes_palette("FantasticFox1", n = 1)) + geom_vline(xintercept=mean(B)) +
+               geom_histogram(color = "black", fill = wes_palette("Zissou1", n = 1)) + geom_vline(xintercept=mean(B)) + #insert mean of group B line
   geom_vline(xintercept = quantile(df$grp_meanB, probs = 0.025), color = "red") +
-  geom_vline(xintercept = quantile(df$grp_meanB, probs = 0.975), color = "red")
+  geom_vline(xintercept = quantile(df$grp_meanB, probs = 0.975), color = "red") #insert quantile lines
   
   
 print(meanB2)
@@ -217,11 +227,11 @@ print(meanB2)
 #plot Group C
 meanC2 <-ggplot(aes(x = grp_meanC),
                data = df) +
-               geom_histogram(color = "black", fill = wes_palette("Zissou1", n = 1)) + geom_vline(xintercept=mean(C)) +
+               geom_histogram(color = "black", fill = wes_palette("GrandBudapest2", n = 1)) + geom_vline(xintercept=mean(C)) + #insert mean of group C line
 geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.025), color = "red") +
-  geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.975), color = "red")
+  geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.975), color = "red") #insert quantile lines
   
 print(meanC2)
 
-# The red lines on the above histograms represent the 95% confidence interval on the simulated data and the black line is the observed mean.  The fact that the balck line is outside the red line in all cases indicates that it is likely from a different population.
+
 ```
