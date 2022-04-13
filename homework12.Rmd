@@ -21,12 +21,13 @@ head(streamC) # Put variable names into correct format
 
 p1 <- ggplot(data = streamC, aes(x = age_class, y = carbon_Mg_ha)) +
   geom_boxplot(outlier.color = "black", fill = wes_palette("Royal1", n = 2)) +
-  ggtitle("Carbon storage of in-stream LWD") +
+  ggtitle("Carbon Storage of In-stream LWD") +
   xlab("Riparian Forest Age Class") +
   ylab ("Carbon (Mg/ha)") +
   theme_classic() +
    theme(plot.title = element_text(hjust = 0.5))  +
-  annotate("text", x = "Mature", y = 22, label = "p = 0.04")
+  annotate("text", x = "Old Growth", y = 5, label = "p < 0.01") +
+  annotate("text", x = "Mature", y = 27, label = "*") + annotate("text", x = "Old Growth", y = 27, label = "**")
 print(p1)
 
 
