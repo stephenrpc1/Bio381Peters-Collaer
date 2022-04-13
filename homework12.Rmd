@@ -14,22 +14,21 @@ setwd("C:/Users/steph/OneDrive - University of Vermont/Documents/Dissertation_Re
 streamC <- read.csv("combined_r_table_oldgrowth_hbef_lineintercept_carbon.csv")
 head(streamC)
 
-streamC <- streamC %>%
-mutate(age_class = case_when(age_class == "mature" ~"Mature", age_class == "oldgrowth" ~ "Old Growth"))
-head(streamC) # Put variable names into correct format
-
 
 p1 <- ggplot(data = streamC, aes(x = age_class, y = carbon_Mg_ha)) +
   geom_boxplot(outlier.color = "black", fill = wes_palette("Royal1", n = 2)) +
   ggtitle("Carbon Storage of In-stream LWD") +
   xlab("Riparian Forest Age Class") +
   ylab ("Carbon (Mg/ha)") +
+  scale_x_discrete(labels=c("Mature","Old Growth")) + # change factor names 
   theme_classic() +
-   theme(plot.title = element_text(hjust = 0.5))  +
-  annotate("text", x = "Old Growth", y = 5, label = "p < 0.01") +
-  annotate("text", x = "Mature", y = 27, label = "*") + annotate("text", x = "Old Growth", y = 27, label = "**")
+   theme(plot.title = element_text(hjust = 0.5)) +  # center plot title
+  annotate("text", x = "oldgrowth", y = 5, label = "p < 0.01") + #add p value
+  annotate("text", x = "mature", y = 30, label = "*") + # add asterisk to denote significance
+  annotate("text", x = "oldgrowth", y = 30, label = "**") + # add double asterisk to denote different significance
+  scale_y_continuous(breaks = seq(0, 30, 5))
+
 print(p1)
-
-
+#ggsave("LWD_Carbon_by_ageclass1", plot = p1, device = "pdf", width = 10, height = 10)
 
 ```
