@@ -1,0 +1,34 @@
+---
+title: "Homework 12"
+author: "Stephen Peters-Collaer"
+date: "4/13/2022"
+output: html_document
+---
+**Make ggplot graph of own data!**
+```{r}
+library(ggplot2)
+library(wesanderson)
+library(tidyverse)
+setwd("C:/Users/steph/OneDrive - University of Vermont/Documents/Dissertation_Research/StreamCarbon") #Set working directory to get data
+
+streamC <- read.csv("combined_r_table_oldgrowth_hbef_lineintercept_carbon.csv")
+head(streamC)
+
+streamC <- streamC %>%
+mutate(age_class = case_when(age_class == "mature" ~"Mature", age_class == "oldgrowth" ~ "Old Growth"))
+head(streamC) # Put variable names into correct format
+
+
+p1 <- ggplot(data = streamC, aes(x = age_class, y = carbon_Mg_ha)) +
+  geom_boxplot(outlier.color = "black", fill = wes_palette("Royal1", n = 2)) +
+  ggtitle("Carbon storage of in-stream LWD") +
+  xlab("Riparian Forest Age Class") +
+  ylab ("Carbon (Mg/ha)") +
+  theme_classic() +
+   theme(plot.title = element_text(hjust = 0.5))  +
+  annotate("text", x = "Mature", y = 22, label = "p = 0.04")
+print(p1)
+
+
+
+```

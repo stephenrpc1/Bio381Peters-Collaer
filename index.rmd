@@ -29,3 +29,5 @@ knitr::opts_chunk$set(echo = TRUE)
 **Click here for [Homework 10!](homework10.html)**
 
 **Click here for [Homework 11!](homework11.html)**
+
+**Click here for [Homework 12!](homework12.html)**
