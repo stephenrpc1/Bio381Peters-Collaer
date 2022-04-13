@@ -4,6 +4,8 @@ author: "Stephen Peters-Collaer"
 date: "4/13/2022"
 output: html_document
 ---
+**Click [here](index.html) to return to the homepage**
+
 **Make ggplot graph of own data!**
 ```{r}
 library(ggplot2)
