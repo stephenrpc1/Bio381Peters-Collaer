@@ -43,6 +43,7 @@ density <- beta1 * height + beta0 # calculate density based on the above variabl
 
 df <- data.frame(height, density) # make data frame of these vectors
 df$index <- seq(1:length(height)) # add index column
+head(df)
 ```
 
 
