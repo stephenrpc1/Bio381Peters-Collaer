@@ -10,6 +10,8 @@ Click [here](index.html) to return to the homepage
 **Question 1**  Repeat the exercise from the Batch Processing Lecture (5 April), but do it using real data sets rather than purely simulated. Check with folks in your lab to see if there are multiple data sets available for analysis, or ask Nick, Lauren, or Emily for suggestions for other data sources. Stick to simple data analyses and graphics, but try to set it up as a batch process that will work on multiple files and save summary results to a common file.
 
 ```{r Question 1}
+
+#The script below assesses whether there is a relationship between the diameter and the length of logs in headwater streams at the Hubbard Brook Experimental Forest in NH.  It runs a linear model on this relationship (dlwd is the x variable (diameter), and llwd is the y variable (length)) for 5 streams we surveyed in the forest.
 library(tidyverse)
 ##################################################
 # function: reg_stats
