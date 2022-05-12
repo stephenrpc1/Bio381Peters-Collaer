@@ -78,7 +78,7 @@ In the next few lectures, you will learn how to do a randomization test on your 
 
 **4a:** Simulate a dataset with 3 groups of data, each group drawn from a distribution with a different mean. The final data frame should have 1 column for group and 1 column for the response variable.
 ```{r Question 4}
-
+set.seed(100)
 group <- as.factor(c(rep("A", 20), rep("B", 20), rep("C", 20))) #make group vector
 A <- rnorm(n = 20, mean = 10, sd= 2.5) #make corresponding data for group A
 B <- rnorm(n = 20, mean = 175, sd = 5)#make corresponding data for group B
@@ -94,7 +94,7 @@ head(q4_df)
 
 ##########################
 # FUNCTION:reshuffle
-# purpose: reshuffles the response variable of a data frame and then provides the man for each group
+# purpose: reshuffles the response variable of a data frame and then provides the mean for each group
 # input: a data frame of two columns, response and group, and the name of the response column as a string
 # output: the mean of each reshuffled group
 # ------------------------
@@ -185,7 +185,7 @@ Worked with Lindsey Carlson on the following segment
 library(tidyverse)
 library(wesanderson)
 
-#First step is to calculate an ANOVA comparing the initial groups to see if they are stastically different.  I will then visualize this using the reshuffled histograms
+#First step is to calculate an ANOVA comparing the initial groups to see if they are statistically different.  I will then visualize this using the reshuffled histograms
 
 ##########################
 # FUNCTION:get_metric
@@ -200,7 +200,7 @@ get_metric <- function(df = q4_df) {
 
 x_obs <- get_metric(q4_df)
 print(x_obs)
-#  The above shows that my groups are statistically different from each other.  I will use the histograms from part 4 to show this graphically by showing the means from my observed data on the simulated histograms
+#  The above shows that my groups are statistically different from each other.  I will use the histograms from part 4 to show this graphically by showing the means from my observed data on the simulated histograms.  Discussed this method with the TAs and got the okay to answer this question this way
 
 #Plot Group A
 meanA2 <-ggplot(aes(x = grp_meanA),
@@ -211,7 +211,7 @@ geom_vline(xintercept = quantile(df$grp_meanC, probs = 0.025), color = "red") +
   
 print(meanA2)
 
-# The red lines on the  histograms represent the 95% confidence interval on the simulated data and the black line is the observed mean.  The fact that the black line is outside of the red line indicates that it is likely from a different population.
+# The red lines on the  histograms represent the 95% confidence interval on the simulated data and the black line is the observed mean.  The fact that the black line is outside of the red lines indicates that it is likely from a different population.
 
 # PLot Group B
 meanB2 <-ggplot(aes(x = grp_meanB),
