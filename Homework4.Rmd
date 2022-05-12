@@ -18,7 +18,7 @@ print(z) #print result
 z <- (x^a)^b # run second equation
 print(z)
 
-z <- 3*x^2 +2*x^2 + 1 # run third equation
+z <- 3*x^3 +2*x^2 + 1 # run third equation
 print(z)
 
 ```
