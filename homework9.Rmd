@@ -9,7 +9,7 @@ Click [here](index.html) to return to the main page
 **Question 1**
 ```{r, Question 1}
 # Description ------------------
-# A script that simulates data for my yellow birch regeneration project.  This script creates simulated data based on the real parameters from my dataset and then runs a linear model and graphs the results.  The independent variable is the size of the fallen over root mounds that the yellow brich are growing on and the dependent variable is the density of yellow birch seedlings growing on the root mound.
+# A script that simulates data for my yellow birch regeneration project.  This script creates simulated data based on the real parameters from my dataset and then runs a linear model and graphs the results.  The independent variable is the size of the fallen over root mounds that the yellow birch are growing on and the dependent variable is the density of yellow birch seedlings growing on the root mound.
 
 #  20 Mar 2022
 #SPC
@@ -89,7 +89,7 @@ graph_results(x_var = df1$x_val, y_var = df1$y_val)
 This differs from the above in that instead of using density of seedlings as the dependent variable, it will use the count of seedlings, and thus use a GLM.
 ```{r, Question 2}
 # Description ------------------
-# A script that simulates data for my yellow birch regeneration project.  This script creates simulated data based on the real parameters from my dataset and then runs a generalized linear model and graphs the results.  The independent variable is the size of the fallen over root mounds that the yellow brich are growing on and the dependent variable is the count of yellow birch seedlings growing on the root mound.
+# A script that simulates data for my yellow birch regeneration project.  This script creates simulated data based on the real parameters from my dataset and then runs a generalized linear model and graphs the results.  The independent variable is the size of the fallen over root mounds that the yellow brich are growing on and the dependent variable is the count of yellow birch seedlings growing on the root mound.  I drew inspiration on how to do this from a discussion with Lauren which led us to talk to and utilize Lindsey Carlson's work on this assignment.
 
 #  20 Mar 2022
 #SPC
@@ -107,6 +107,7 @@ set.seed(3333)
 # lambda - the lambda of the poisson distribution for the count data
 # xrange - the known range of values for the independent variable
 # output: A data frame containing the simulated data set based on the given parameters
+#Idea for using a min and max range came from Lindsey Carlson
 # ------------------------
 create_simdata <- function(n = 10, lambda = 10, xrange=1:10 ) {
   x_val <- runif(n, min = min(xrange), max = max(xrange)) 
